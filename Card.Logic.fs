@@ -3,7 +3,9 @@ namespace Solitaire.Domain
 open Solitaire.Domain.Cards
 
 module Logic =
-    type StackError = | CantAddToStack
+    type StackError =
+        | CantAddToStack
+        | NoCardToRemove
 
     module Suit =
         let sameColor (a : Suit) (b : Suit) = a.Color = b.Color
@@ -86,6 +88,7 @@ module Logic =
         let addToStack (c : Card) (stack : Stack) : Result<Stack, StackError> =
             match stack with
             | { Cards = _; Spot = Deck } -> Error CantAddToStack
+            | { Cards = cards; Spot = Talon } -> Ok { stack with Cards = c :: cards }
             | { Cards = cards; Spot = Pile } ->
                 match cards with
                 | [] -> Ok { stack with Cards = [ c ] }
@@ -108,3 +111,8 @@ module Logic =
                             Ok { stack with Cards = c :: top :: rest }
                         else
                             Error CantAddToStack
+
+        let removeFromStack (stack : Stack) : Result<Card * Stack, StackError> =
+            match stack.Cards with
+            | [] -> Error NoCardToRemove
+            | top :: rest -> Ok(top, { stack with Cards = rest })

@@ -1,0 +1,11 @@
+<Project>
+  <!-- See https://aka.ms/dotnet/msbuild/customize for more details on customizing your build -->
+  <PropertyGroup>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarnOn>1182</WarnOn><!--unused value-->
+    <OtherFlags>$(OtherFlags) --test:GraphBasedChecking</OtherFlags>
+    <OtherFlags>$(OtherFlags) --test:DumpCheckingGraph</OtherFlags>
+    <OtherFlags>$(OtherFlags) --times:compilation-report.csv</OtherFlags>
+    <NoWarn>75</NoWarn><!-- times report is a testing feature -->
+  </PropertyGroup>
+</Project>
