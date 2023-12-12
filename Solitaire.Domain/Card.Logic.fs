@@ -1,6 +1,6 @@
 namespace Solitaire.Domain
 
-open Solitaire.Domain.Cards
+open Solitaire.Domain.Card
 
 module Logic =
     type StackError =

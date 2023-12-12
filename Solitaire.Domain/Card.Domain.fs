@@ -1,6 +1,6 @@
 ﻿namespace Solitaire.Domain
 
-module Cards =
+module Card =
 
     [<NoComparison>]
     [<Struct>]
@@ -39,6 +39,8 @@ module Cards =
         | Queen
         | King
 
+    [<Struct>]
+    [<NoComparison>]
     type Card = { Suit : Suit; Rank : Rank }
 
     // The first element of the list is the top of the stack
