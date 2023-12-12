@@ -85,34 +85,43 @@ module Logic =
 
     module Stack =
 
+        let getCards (stack: Stack) : Card list =
+            match stack with
+            | Deck { Cards = cards }
+            | Talon { Cards = cards }
+            | Pile { Cards = cards }
+            | Foundation { Cards = cards } -> cards
+
         let addToStack (c : Card) (stack : Stack) : Result<Stack, StackError> =
             match stack with
-            | { Cards = _; Spot = Deck } -> Error CantAddToStack
-            | { Cards = cards; Spot = Talon } -> Ok { stack with Cards = c :: cards }
-            | { Cards = cards; Spot = Pile } ->
+            // TODO: Figure out what to do about restarting or flipping the talon back into the deck
+            | Deck { Cards = _ } -> Error CantAddToStack
+            | Talon { Cards = cards } -> Talon { Cards = c :: cards } |> Ok
+            | Pile { Cards = cards } ->
                 match cards with
-                | [] -> Ok { stack with Cards = [ c ] }
+                | [] -> Pile { Cards = [ c ] } |> Ok
                 | top :: rest ->
                     if Suit.sameColor top.Suit c.Suit || top.Rank <= c.Rank then
                         Error CantAddToStack
                     else
-                        Ok { stack with Cards = c :: top :: rest }
-            | {
-                  Cards = cards
-                  Spot = Foundation targetSuit
-              } ->
+                        Pile { Cards = c :: top :: rest } |> Ok
+            | Foundation { Cards = cards; Suit = targetSuit }->
                 if c.Suit <> targetSuit then
                     Error CantAddToStack
                 else
                     match cards with
-                    | [] -> Ok { stack with Cards = [ c ] }
+                    | [] -> 
+                        if c.Rank = Ace then 
+                            Foundation { Cards = [ c ]; Suit = targetSuit } |> Ok
+                        else
+                            Error CantAddToStack
                     | top :: rest ->
                         if c.Rank < top.Rank then
-                            Ok { stack with Cards = c :: top :: rest }
+                            Foundation { Cards = c :: top :: rest; Suit = targetSuit } |> Ok
                         else
                             Error CantAddToStack
 
-        let removeFromStack (stack : Stack) : Result<Card * Stack, StackError> =
+        let removeFromStack (stack : Deck) : Result<Card * Deck, StackError> =
             match stack.Cards with
             | [] -> Error NoCardToRemove
             | top :: rest -> Ok(top, { stack with Cards = rest })

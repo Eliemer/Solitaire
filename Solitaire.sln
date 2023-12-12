@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Solitaire.Domain.Test", "Solitaire.Domain.Test\Solitaire.Domain.Test.fsproj", "{407F8045-831F-4F67-971F-1F9257FF500F}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Solitaire.Domain", "Solitaire.Domain\Solitaire.Domain.fsproj", "{E9E59F78-C62F-46F6-AC52-1947662E212A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{407F8045-831F-4F67-971F-1F9257FF500F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{407F8045-831F-4F67-971F-1F9257FF500F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{407F8045-831F-4F67-971F-1F9257FF500F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{407F8045-831F-4F67-971F-1F9257FF500F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9E59F78-C62F-46F6-AC52-1947662E212A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9E59F78-C62F-46F6-AC52-1947662E212A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9E59F78-C62F-46F6-AC52-1947662E212A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9E59F78-C62F-46F6-AC52-1947662E212A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

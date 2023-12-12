@@ -1,7 +1,6 @@
 ﻿namespace Solitaire.Domain
 
 module Cards =
-    open Microsoft.FSharp.Reflection
 
     [<NoComparison>]
     [<Struct>]
@@ -42,21 +41,20 @@ module Cards =
 
     type Card = { Suit : Suit; Rank : Rank }
 
-    type Spot =
-        // Where all 52 cards come from
-        | Deck
-        // The play area piles
-        | Pile
-        // Where the suits are built up
-        | Foundation of Suit
-        | Talon
-
     // The first element of the list is the top of the stack
-    type Stack = { Cards : Card list; Spot : Spot }
+    type Deck = { Cards : Card list }
+    type Pile = { Cards : Card list }
+    type Foundation = { Cards : Card list; Suit : Suit }
+    type Talon = { Cards : Card list }
 
-    let StandardDeck =
+    type Stack =
+        | Deck of Deck
+        | Pile of Pile
+        | Foundation of Foundation
+        | Talon of Talon
+    
+    let StandardDeck: Deck =
         {
-            Stack.Spot = Deck
             Cards =
                 [
                     let combos =
@@ -67,4 +65,12 @@ module Cards =
                     for (suit, rank) in combos do
                         { Suit = suit; Rank = rank }
                 ]
+        }
+
+    type Table =
+        {
+            Deck: Deck
+            Talon: Talon
+            Piles: Pile array
+            Foundations: Foundation array
         }
