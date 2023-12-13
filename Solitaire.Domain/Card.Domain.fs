@@ -38,6 +38,23 @@ module Card =
         | Jack
         | Queen
         | King
+        with
+        member this.Incr (): Rank = 
+            match this with
+            | Ace -> Two
+            | Two -> Three
+            | Three -> Four
+            | Four -> Five
+            | Five -> Six
+            | Six -> Seven
+            | Seven -> Eight
+            | Eight -> Nine
+            | Nine -> Ten
+            | Ten -> Jack
+            | Jack -> Queen
+            | Queen -> King
+            // do we circle, or not?
+            | King -> Ace
 
     [<Struct>]
     [<NoComparison>]
@@ -46,7 +63,7 @@ module Card =
     // The first element of the list is the top of the stack
     type Deck = { Cards : Card list }
     type Pile = { Cards : Card list }
-    type Foundation = { Cards : Card list; Suit : Suit }
+    type Foundation = { Cards : Card list }
     type Talon = { Cards : Card list }
 
     type Stack =
