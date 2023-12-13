@@ -101,7 +101,11 @@ module Logic =
             | Talon { Cards = cards } -> Talon { Cards = c :: cards } |> Ok
             | Pile { Cards = cards } ->
                 match cards with
-                | [] -> Pile { Cards = [ c ] } |> Ok
+                | [] -> 
+                    if c.Rank = King then 
+                        Pile { Cards = [ c ] } |> Ok
+                    else
+                        Error CantAddToStack
                 | top :: rest ->
                     if Suit.sameColor top.Suit c.Suit || top.Rank = c.Rank.Incr() then
                         Error CantAddToStack
