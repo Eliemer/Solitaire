@@ -2,6 +2,10 @@
 
 module Card =
 
+    type Orientation =
+        | FaceUp
+        | FaceDown
+
     [<NoComparison>]
     [<Struct>]
     type Color =
@@ -58,7 +62,7 @@ module Card =
 
     [<Struct>]
     [<NoComparison>]
-    type Card = { Suit : Suit; Rank : Rank }
+    type Card = { Suit : Suit; Rank : Rank; Orientation: Orientation }
 
     // The first element of the list is the top of the stack
     type Deck = { Cards : Card list }
@@ -82,7 +86,7 @@ module Card =
                             [ Ace; Two; Three; Four; Five; Six; Seven; Eight; Nine; Ten; Jack; Queen; King ]
 
                     for (suit, rank) in combos do
-                        { Suit = suit; Rank = rank }
+                        { Suit = suit; Rank = rank; Orientation = FaceUp }
                 ]
         }
 
