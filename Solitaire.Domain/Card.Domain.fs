@@ -86,7 +86,7 @@ module Card =
                             [ Ace; Two; Three; Four; Five; Six; Seven; Eight; Nine; Ten; Jack; Queen; King ]
 
                     for (suit, rank) in combos do
-                        { Suit = suit; Rank = rank; Orientation = FaceUp }
+                        { Suit = suit; Rank = rank; Orientation = FaceDown }
                 ]
         }
 
