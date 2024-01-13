@@ -10,6 +10,7 @@ module Logic =
     module Suit =
         let sameColor (a : Suit) (b : Suit) = a.Color = b.Color
 
+    // TODO: Move all this parsing stuff to the serialization layer
     module Rank =
         [<Literal>]
         let Ace = "Ace"
@@ -124,7 +125,21 @@ module Logic =
                     else
                         Error CantAddToStack
 
-        let removeFromStack (stack : Deck) : Result<Card * Deck, StackError> =
-            match stack.Cards with
-            | [] -> Error NoCardToRemove
-            | top :: rest -> Ok(top, { stack with Cards = rest })
+        let removeFromStack (stack : Stack) : Result<Card * Stack, StackError> =
+            match stack with
+            | Pile p -> 
+                match p.Cards with
+                | [] -> Error NoCardToRemove
+                | top :: rest -> (top, Pile {p with Cards = rest }) |> Ok
+            | Deck d -> 
+                match d.Cards with
+                | [] -> Error NoCardToRemove
+                | top :: rest -> (top, Deck {d with Cards = rest }) |> Ok
+            | Talon t -> 
+                match t.Cards with
+                | [] -> Error NoCardToRemove
+                | top :: rest -> (top, Talon {t with Cards = rest }) |> Ok
+            | Foundation f -> 
+                match f.Cards with
+                | [] -> Error NoCardToRemove
+                | top :: rest -> (top, Foundation {f with Cards = rest }) |> Ok

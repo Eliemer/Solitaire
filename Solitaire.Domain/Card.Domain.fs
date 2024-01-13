@@ -76,7 +76,7 @@ module Card =
         | Foundation of Foundation
         | Talon of Talon
     
-    let StandardDeck: Deck =
+    let STANDARD_DECK: Deck =
         {
             Cards =
                 [
