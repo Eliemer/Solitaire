@@ -41,3 +41,19 @@ module StackTests =
     let ``You can always remove a card from any stack`` (stack : Stack) =
         (Stack.getCards stack).Length > 0
         ==> (Stack.removeFromStack stack |> Result.isOk)
+
+    [<Fact>]
+    let ``Check pile for ascending run``() =
+        let run =
+            [
+                { Suit = Diamonds; Rank = Ace; Orientation = FaceUp }
+                { Suit = Spades  ; Rank = Two; Orientation = FaceUp }
+                { Suit = Hearts; Rank = Three; Orientation = FaceUp }
+                // Not part of ascending run
+                { Suit = Clubs ; Rank = King; Orientation = FaceUp }
+                // Facedown card
+                { Suit = Clubs ; Rank = Jack; Orientation = FaceDown } 
+            ]
+
+        let pile = { Pile.Cards = run }
+        Stack.ascendingRunInPile pile = List.take 3 run

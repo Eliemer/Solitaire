@@ -102,13 +102,16 @@ module Logic =
             | Talon { Cards = cards } -> Talon { Cards = c :: cards } |> Ok
             | Pile { Cards = cards } ->
                 match cards with
-                | [] -> 
-                    if c.Rank = King then 
+                | [] ->
+                    if c.Rank = King then
                         Pile { Cards = [ c ] } |> Ok
                     else
                         Error CantAddToStack
                 | top :: rest ->
-                    if Suit.sameColor top.Suit c.Suit || top.Rank = c.Rank.Incr() then
+                    if
+                        Suit.sameColor top.Suit c.Suit
+                        || top.Rank = c.Rank.Incr()
+                    then
                         Error CantAddToStack
                     else
                         Pile { Cards = c :: top :: rest } |> Ok
@@ -127,19 +130,29 @@ module Logic =
 
         let removeFromStack (stack : Stack) : Result<Card * Stack, StackError> =
             match stack with
-            | Pile p -> 
+            | Pile p ->
                 match p.Cards with
                 | [] -> Error NoCardToRemove
-                | top :: rest -> (top, Pile {p with Cards = rest }) |> Ok
-            | Deck d -> 
+                | top :: rest -> (top, Pile { p with Cards = rest }) |> Ok
+            | Deck d ->
                 match d.Cards with
                 | [] -> Error NoCardToRemove
-                | top :: rest -> (top, Deck {d with Cards = rest }) |> Ok
-            | Talon t -> 
+                | top :: rest -> (top, Deck { d with Cards = rest }) |> Ok
+            | Talon t ->
                 match t.Cards with
                 | [] -> Error NoCardToRemove
-                | top :: rest -> (top, Talon {t with Cards = rest }) |> Ok
-            | Foundation f -> 
+                | top :: rest -> (top, Talon { t with Cards = rest }) |> Ok
+            | Foundation f ->
                 match f.Cards with
                 | [] -> Error NoCardToRemove
-                | top :: rest -> (top, Foundation {f with Cards = rest }) |> Ok
+                | top :: rest -> (top, Foundation { f with Cards = rest }) |> Ok
+
+        let ascendingRunInPile (pile : Pile) : Card list =
+            pile.Cards
+            |> List.pairwise // [1; 2; 3; 4] => [(1, 2); (2, 3); (3, 4)]
+            |> List.takeWhile (fun (top, next) ->
+                top.Rank.Incr() = next.Rank
+                && top.Suit.Color <> next.Suit.Color
+                && top.Orientation = FaceUp
+                && next.Orientation = FaceUp)
+            |> List.map fst
